@@ -1,49 +1,131 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+	<title>reveal.js</title>
 
-		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/sky.css">
 
-		<!-- Theme used for syntax highlighting of code -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
 
-		<!-- Printing and PDF exports -->
-		<script>
-			var link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-			link.type = 'text/css';
-			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
-			document.getElementsByTagName( 'head' )[0].appendChild( link );
-		</script>
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Test!</section>
-				<section>Test 2!</section>
-			</div>
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement( 'link' );
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName( 'head' )[0].appendChild( link );
+	</script>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-markdown>
+				## Measuring .NET performance
+
+				Oliver Brennan
+			</section>
+			<section>
+				<h1>IT'S<br>SLOW</h1>
+			</section>
+			<section class="stack">
+				<section>
+					<blockquote cite="Donald Knuth">We should forget about small efficiencies, say about 97% of the time: <span class="fragment highlight-current-blue">premature optimization is the root of all evil</span>. Yet <span class="fragment highlight-current-blue">we should not pass up our opportunities in that critical 3%</span>.</blockquote>
+				</section>
+				<section>
+					<blockquote cite="Niklaus Wirth">The hope is that the progress in hardware will cure all software ills. However, a critical observer may observe that <span class="fragment highlight-current-blue">software manages to outgrow hardware in size and sluggishness</span>.</blockquote>
+				</section>
+			</section>
+			<section data-markdown>
+				### Why measure
+
+				* optimise with confidence
+				* have quantifiable performance goals
+				* find regressions
+				* it's easy to do!
+			</section>
+			<section data-markdown>
+				### metrics
+
+				* Wall-clock time
+				* CPU 
+				  * Time in user code
+				  * Time in GC
+				* Memory 
+				  * Allocation rate
+				  * Working set 
+				* JIT 
+				* I/O 
+				* Concurrency
+			</section>
+			<section data-markdown>
+				### metric collection
+
+				* profiling
+				* performance counters
+				* ETW
+				* tracing
+			</section>
+			<section data-markdown>
+				### tools
+
+			    * PerfView
+				* dotMemory/dotTrace
+			</section>
+			<section>
+				<h2>noise</h2>
+				<ul class="stack">
+					<li class="fragment">variations due to load</li>
+					<li class="fragment">JIT</li>
+					<li class="fragment">static initialisers</li>
+					<li class="fragment">assembly loading</li>
+				</ul>
+			</section>
+			<section>
+				<h2>benchmarking</h2>
+				<div data-markdown class="fragment">
+					`Install-Package` [`BenchmarkDotNet`](https://github.com/dotnet/BenchmarkDotNet#Showtime)
+				</div>
+				<div data-markdown class="fragment">
+					```cs
+					[Benchmark]
+					public void Benchmark()
+					{
+						SomethingSlow();
+					}
+					```
+				</div>
+	<ul>
+		<li class="fragment">rigorous measurements</li>
+		<li class="fragment">multiple frameworks</li>
+		<li class="fragment">pretty visualisations</li>
+	</ul>
+			</section>
 		</div>
+	</div>
 
-		<script src="lib/js/head.min.js"></script>
-		<script src="js/reveal.js"></script>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
 
-		<script>
+	<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				fragmentInURL: true,
+				history: true,
 				dependencies: [
-					{ src: 'plugin/markdown/marked.js' },
-					{ src: 'plugin/markdown/markdown.js' },
-					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
 				]
 			});
 		</script>
 	</body>
-</html>
+	</html>
